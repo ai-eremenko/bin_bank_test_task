@@ -17,4 +17,7 @@ interface BinInfoDao {
 
     @Query("DELETE FROM bin_history WHERE bin = :bin")
     suspend fun deleteByBin(bin: String)
+
+    @Query("DELETE FROM bin_history")
+    suspend fun clearAll()
 }

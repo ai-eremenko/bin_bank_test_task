@@ -8,10 +8,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.History
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -28,24 +33,34 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.bankcard.R
 import com.example.bankcard.domain.model.BinInfo
-import com.example.bankcard.presentation.binsearch.SearchState
+import com.example.bankcard.presentation.binsearch.BinSearchState
+import com.example.bankcard.ui.components.BinInfoBottomSheet
+import com.example.bankcard.ui.components.BinInfoCard
 import com.example.bankcard.ui.components.LoadingIndicator
 import com.example.bankcard.ui.theme.AccentBrand
 import com.example.bankcard.ui.theme.Black
 import com.example.bankcard.ui.theme.Gray
+import com.example.bankcard.ui.theme.GrayDark
 import com.example.bankcard.ui.theme.White
 import com.example.bankcard.ui.view.ErrorView
+import com.example.bankcard.utils.BankCardNumberTransformation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BinSearchView(
-    uiState: SearchState,
-    searchQuery: String,
-    binInfo: BinInfo,
+    uiState: BinSearchState,
     onSearchQueryChanged: (String) -> Unit,
-    onInfoClick: (Int) -> Unit,
-    loadBinInfo: () -> Unit
+    onSearch: () -> Unit,
+    onNavigateToHistory: () -> Unit,
+    onShowBottomSheet: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
 ) {
+
+    BinInfoBottomSheet(
+        binInfo = uiState.binInfo,
+        onDismiss = { onShowBottomSheet(false) }
+    )
+
     Scaffold(
         topBar = {
             Column {
@@ -69,8 +84,8 @@ fun BinSearchView(
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = White,
                         titleContentColor = Black
+                    ),
                     )
-                )
             }
         },
         containerColor = White
@@ -83,8 +98,11 @@ fun BinSearchView(
             Spacer(modifier = Modifier.height(16.dp))
 
             OutlinedTextField(
-                value = searchQuery,
-                onValueChange = onSearchQueryChanged,
+                value = uiState.searchQuery,
+                onValueChange = { newText ->
+                    val filteredText = newText.filter { it.isDigit() }
+                    onSearchQueryChanged(filteredText)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
@@ -95,8 +113,8 @@ fun BinSearchView(
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     containerColor = Color.Transparent,
                     unfocusedBorderColor = Color.Transparent,
-                    focusedBorderColor = AccentBrand,
-                    cursorColor = AccentBrand
+                    focusedBorderColor = GrayDark,
+                    cursorColor = GrayDark
                 ),
 
                 shape = RoundedCornerShape(16.dp),
@@ -120,157 +138,71 @@ fun BinSearchView(
                     )
                 },
 
-                singleLine = true
+                singleLine = true,
+                visualTransformation = BankCardNumberTransformation()
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = onSearch,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .height(46.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = GrayDark
+                )
+            ) {
+                Text(
+                    "Search",
+                    style = MaterialTheme.typography.headlineMedium,
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = onNavigateToHistory,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .height(46.dp),
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Gray
+                )
+            ) {
+                Text(
+                    "History",
+                    style = MaterialTheme.typography.headlineMedium,
+                )
+            }
 
             Spacer(modifier = Modifier.height(8.dp))
 
             when {
-                uiState.isLoading -> LoadingIndicator()
-                uiState.error != null -> ErrorView(
-                    message = uiState.error,
-                    onRetry = loadBinInfo
-                )
-
-                else -> Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 16.dp)
-                        .background(White)
-                ) {
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
-                        colors = CardDefaults.cardColors(
-                            containerColor = White
-                        )
+                uiState.isLoading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp)
-                                .background(White)
-                        ) {
-                            Column {
-                                Text(
-                                    text = "Country",
-                                    style = MaterialTheme.typography.labelSmall,
-                                )
-
-                                Spacer(modifier = Modifier.height(2.dp))
-
-                                binInfo.countryName?.let {
-                                    Text(
-                                        text = it,
-                                        style = MaterialTheme.typography.bodySmall
-                                    )
-                                }
-                            }
-
-                            Spacer(modifier = Modifier.height(20.dp))
-                            Column {
-                                Text(
-                                    text = "Coordinates",
-                                    style = MaterialTheme.typography.labelSmall,
-                                )
-
-                                Spacer(modifier = Modifier.height(2.dp))
-
-                                Text(
-                                    text = "binInfo.countryLatitude" + "binInfo.countryLongitude",
-                                    style = MaterialTheme.typography.bodySmall
-                                )
-                            }
-
-                            Spacer(modifier = Modifier.height(20.dp))
-                            Column {
-                                Text(
-                                    text = "Card Type",
-                                    style = MaterialTheme.typography.labelSmall,
-                                )
-
-                                Spacer(modifier = Modifier.height(2.dp))
-
-                                binInfo.brand?.let {
-                                    Text(
-                                        text = it,
-                                        style = MaterialTheme.typography.bodySmall
-                                    )
-                                }
-                            }
-
-                            Spacer(modifier = Modifier.height(20.dp))
-                            Column {
-                                Text(
-                                    text = "Bank name",
-                                    style = MaterialTheme.typography.labelSmall,
-                                )
-
-                                Spacer(modifier = Modifier.height(2.dp))
-
-                                binInfo.bankName?.let {
-                                    Text(
-                                        text = it,
-                                        style = MaterialTheme.typography.bodySmall
-                                    )
-                                }
-                            }
-
-                            Spacer(modifier = Modifier.height(20.dp))
-                            Column {
-                                Text(
-                                    text = "Bank url",
-                                    style = MaterialTheme.typography.labelSmall,
-                                )
-
-                                Spacer(modifier = Modifier.height(2.dp))
-
-                                binInfo.bankUrl?.let {
-                                    Text(
-                                        text = it,
-                                        style = MaterialTheme.typography.bodySmall
-                                    )
-                                }
-                            }
-
-                            Spacer(modifier = Modifier.height(20.dp))
-                            Column {
-                                Text(
-                                    text = "Bank phone",
-                                    style = MaterialTheme.typography.labelSmall,
-                                )
-
-                                Spacer(modifier = Modifier.height(2.dp))
-
-                                binInfo.bankPhone?.let {
-                                    Text(
-                                        text = it,
-                                        style = MaterialTheme.typography.bodySmall
-                                    )
-                                }
-                            }
-
-                            Spacer(modifier = Modifier.height(20.dp))
-                            Column {
-                                Text(
-                                    text = "City",
-                                    style = MaterialTheme.typography.labelSmall,
-                                )
-
-                                Spacer(modifier = Modifier.height(2.dp))
-
-                                binInfo.bankCity?.let {
-                                    Text(
-                                        text = it,
-                                        style = MaterialTheme.typography.bodySmall
-                                    )
-                                }
-                            }
-                        }
+                        LoadingIndicator()
                     }
+                }
+
+                uiState.error != null -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        ErrorView(
+                            message = uiState.error,
+                            onRetry = onSearch
+                        )
+                    }
+                }
+
+                else -> {
                 }
             }
         }

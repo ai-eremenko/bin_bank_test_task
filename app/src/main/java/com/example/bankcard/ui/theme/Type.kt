@@ -57,4 +57,12 @@ val Typography = Typography(
         fontSize = 18.sp,
         color = White
     ),
+
+    headlineMedium = TextStyle(
+        fontFamily = Roboto,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 18.sp,
+        color = Black
+    ),
+
 )

@@ -5,6 +5,4 @@ import kotlinx.coroutines.flow.Flow
 
 interface BinSearchRepository {
     suspend fun getBinInfo(bin: String): Result<BinInfo>
-    fun getBinHistory(): Flow<List<BinInfo>>
-    suspend fun deleteBinFromHistory(bin: String)
 }

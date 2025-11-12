@@ -29,14 +29,4 @@ class BinSearchRepositoryImpl(
             Result.failure(e)
         }
     }
-
-    override fun getBinHistory(): Flow<List<BinInfo>> {
-        return binInfoDao.getAll().map { entities ->
-            entities.map { it.toBinInfo() }
-        }
-    }
-
-    override suspend fun deleteBinFromHistory(bin: String) {
-        binInfoDao.deleteByBin(bin)
-    }
 }
