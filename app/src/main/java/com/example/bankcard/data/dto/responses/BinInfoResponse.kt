@@ -4,23 +4,23 @@ import com.google.gson.annotations.SerializedName
 
 data class BinInfoResponse(
     @SerializedName("number")
-    val number: NumberResponse? = null,
+    val number: NumberResponse?,
 
     @SerializedName("scheme")
-    val scheme: String? = null,
+    val scheme: String?,
 
     @SerializedName("type")
-    val type: String? = null,
+    val type: String?,
 
     @SerializedName("brand")
-    val brand: String? = null,
+    val brand: String?,
 
     @SerializedName("prepaid")
-    val prepaid: Boolean? = null,
+    val prepaid: Boolean?,
 
     @SerializedName("country")
-    val country: CountryResponse? = null,
+    val country: CountryResponse?,
 
     @SerializedName("bank")
-    val bank: BankResponse? = null
+    val bank: BankResponse?
 )

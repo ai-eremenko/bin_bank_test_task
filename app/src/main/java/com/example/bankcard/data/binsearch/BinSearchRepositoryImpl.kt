@@ -7,6 +7,8 @@ import com.example.bankcard.data.mapper.BinInfoMapper.toEntity
 import com.example.bankcard.data.network.BinApiService
 import com.example.bankcard.domain.binsearch.BinSearchRepository
 import com.example.bankcard.domain.model.BinInfo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class BinSearchRepositoryImpl(
     private val binApiService: BinApiService,
@@ -15,16 +17,16 @@ class BinSearchRepositoryImpl(
 ) : BinSearchRepository {
 
     override suspend fun getBinInfo(bin: String): Result<BinInfo> {
-        return try {
-            val response = binApiService.getBinInfo(bin)
-            val dto = mapper.mapToDto(bin, response)
-            val binInfo = dto.toBinInfo()
-
-            binInfoDao.insert(binInfo.toEntity())
-
-            Result.success(binInfo)
-        } catch (e: Exception) {
-            Result.failure(e)
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = binApiService.getBinInfo(bin)
+                val dto = mapper.mapToDto(bin, response)
+                val binInfo = dto.toBinInfo()
+                binInfoDao.insert(binInfo.toEntity())
+                Result.success(binInfo)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
         }
     }
 }

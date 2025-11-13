@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.bankcard.data.db.entity.BinInfoEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BinInfoDao {
@@ -13,7 +12,7 @@ interface BinInfoDao {
     suspend fun insert(binInfo: BinInfoEntity)
 
     @Query("SELECT * FROM bin_history ORDER BY timestamp DESC")
-    fun getAll(): Flow<List<BinInfoEntity>>
+    suspend  fun getAll(): List<BinInfoEntity>
 
     @Query("DELETE FROM bin_history WHERE bin = :bin")
     suspend fun deleteByBin(bin: String)

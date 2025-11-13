@@ -1,13 +1,12 @@
 package com.example.bankcard.domain.history
 
 import com.example.bankcard.domain.model.BinInfo
-import kotlinx.coroutines.flow.Flow
 
 class HistoryInteractorImpl(
     private val historyRepository: HistoryRepository
 ) : HistoryInteractor {
 
-    override fun getHistory(): Flow<List<BinInfo>> {
+    override suspend fun getHistory(): List<BinInfo> {
         return historyRepository.getHistory()
     }
 

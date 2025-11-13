@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName
 
 data class BankResponse(
     @SerializedName("name")
-    val name: String? = null,
+    val name: String?,
 
     @SerializedName("url")
-    val url: String? = null,
+    val url: String?,
 
     @SerializedName("phone")
-    val phone: String? = null,
+    val phone: String?,
 
     @SerializedName("city")
-    val city: String? = null
+    val city: String?
 )

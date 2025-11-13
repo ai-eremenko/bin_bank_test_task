@@ -4,20 +4,20 @@ import com.google.gson.annotations.SerializedName
 
 data class CountryResponse(
     @SerializedName("name")
-    val name: String? = null,
+    val name: String?,
 
     @SerializedName("alpha2")
-    val alpha2: String? = null,
+    val alpha2: String?,
 
     @SerializedName("emoji")
-    val emoji: String? = null,
+    val emoji: String?,
 
     @SerializedName("currency")
-    val currency: String? = null,
+    val currency: String?,
 
     @SerializedName("latitude")
-    val latitude: Double? = null,
+    val latitude: Double?,
 
     @SerializedName("longitude")
-    val longitude: Double? = null
+    val longitude: Double?
 )

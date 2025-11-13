@@ -6,7 +6,7 @@ import com.example.bankcard.data.db.dao.BinInfoDao
 import com.example.bankcard.data.db.entity.BinInfoEntity
 
 @Database(
-    version = 4,
+    version = 1,
     entities = [BinInfoEntity::class],
     exportSchema = false
 )

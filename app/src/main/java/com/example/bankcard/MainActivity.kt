@@ -8,8 +8,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.example.bankcard.ui.navigation.AppNavigation
-import com.example.bankcard.ui.theme.BankCardTheme
+import com.example.bankcard.uikit.navigation.AppNavigation
+import com.example.bankcard.uikit.theme.BankCardTheme
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

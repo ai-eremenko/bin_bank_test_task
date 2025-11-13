@@ -1,25 +1,25 @@
 package com.example.bankcard.data.history
 
 import com.example.bankcard.data.db.dao.BinInfoDao
-import com.example.bankcard.data.mapper.BinInfoMapper
 import com.example.bankcard.data.mapper.BinInfoMapper.toBinInfo
 import com.example.bankcard.domain.history.HistoryRepository
 import com.example.bankcard.domain.model.BinInfo
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class HistoryRepositoryImpl(
-    private val binInfoDao: BinInfoDao,
-    private val mapper: BinInfoMapper
+    private val binInfoDao: BinInfoDao
 ) : HistoryRepository {
 
-    override fun getHistory(): Flow<List<BinInfo>> {
-        return binInfoDao.getAll().map { entities ->
-            entities.map { it.toBinInfo() }
+    override suspend fun getHistory(): List<BinInfo> {
+        return withContext(Dispatchers.IO) {
+            binInfoDao.getAll().map { it.toBinInfo() }
         }
     }
 
     override suspend fun deleteFromHistory(bin: String) {
-        binInfoDao.deleteByBin(bin)
+        return withContext(Dispatchers.IO) {
+            binInfoDao.deleteByBin(bin)
+        }
     }
 }

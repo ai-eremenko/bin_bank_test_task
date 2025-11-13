@@ -1,3 +1,28 @@
 <resources>
-    <string name="app_name">BankCard</string>
+    <string name="app_name">Bank Card</string>
+    <string name="bin_card_search">BIN card search</string>
+    <string name="enter_bin_card">Enter BIN card</string>
+    <string name="search">Search</string>
+    <string name="search_icon">Search icon</string>
+    <string name="history">History</string>
+    <string name="unknown_bank">Unknown bank</string>
+    <string name="bin_prefix">BIN: %s</string>
+    <string name="delete_description">Delete</string>
+    <string name="search_history">Search History</string>
+    <string name="back">Back</string>
+    <string name="no_search_history">No search history</string>
+    <string name="country_label">Country</string>
+    <string name="coordinates_label">Coordinates</string>
+    <string name="card_type_label">Card Type</string>
+    <string name="bank_name_label">Bank name</string>
+    <string name="bank_url_label">Bank url</string>
+    <string name="bank_phone_label">Bank phone</string>
+    <string name="city_label">City</string>
+    <string name="not_available">Not available</string>
+    <string name="retry">Retry</string>
+    <string name="bin_min_length_error">BIN must be at least 6 digits</string>
+    <string name="bin_max_length_error">BIN must be at most 8 digits</string>
+    <string name="unknown_error_occurred">Unknown error occurred</string>
+    <string name="failed_to_load_history">Failed to load history</string>
+    <string name="failed_to_delete_item">Failed to delete item</string>
 </resources>
