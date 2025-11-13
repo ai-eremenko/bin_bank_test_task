@@ -1,7 +1,6 @@
 package com.example.bankcard.domain.binsearch
 
 import com.example.bankcard.domain.model.BinInfo
-import kotlinx.coroutines.flow.Flow
 
 class BinSearchInteractorImpl (
     private val binSearchRepository: BinSearchRepository

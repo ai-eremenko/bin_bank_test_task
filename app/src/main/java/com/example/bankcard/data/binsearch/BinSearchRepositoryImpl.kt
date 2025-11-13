@@ -7,8 +7,6 @@ import com.example.bankcard.data.mapper.BinInfoMapper.toEntity
 import com.example.bankcard.data.network.BinApiService
 import com.example.bankcard.domain.binsearch.BinSearchRepository
 import com.example.bankcard.domain.model.BinInfo
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class BinSearchRepositoryImpl(
     private val binApiService: BinApiService,
