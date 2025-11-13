@@ -15,7 +15,7 @@ import com.example.bankcard.feature.binsearch.view.BinSearchTopAppBar
 import com.example.bankcard.feature.binsearch.view.HistoryButton
 import com.example.bankcard.feature.binsearch.view.SearchButton
 import com.example.bankcard.feature.binsearch.view.SearchTextField
-import com.example.bankcard.uikit.components.BinInfoBottomSheet
+import com.example.bankcard.feature.info_sheet.BinInfoBottomSheet
 import com.example.bankcard.uikit.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -27,7 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.bankcard.R
 import com.example.bankcard.domain.model.BinInfo
-import com.example.bankcard.uikit.components.BinInfoBottomSheet
+import com.example.bankcard.feature.info_sheet.BinInfoBottomSheet
 import com.example.bankcard.uikit.theme.Black
 import com.example.bankcard.uikit.theme.White
 import org.koin.androidx.compose.koinViewModel

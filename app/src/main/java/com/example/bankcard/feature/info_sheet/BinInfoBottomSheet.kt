@@ -1,4 +1,4 @@
-package com.example.bankcard.uikit.components
+package com.example.bankcard.feature.info_sheet
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.bankcard.domain.model.BinInfo
+import com.example.bankcard.uikit.components.BinInfoCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
