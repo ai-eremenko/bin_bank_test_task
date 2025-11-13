@@ -3,6 +3,8 @@ package com.example.bankcard.presentation.history
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bankcard.domain.history.HistoryInteractor
+import com.example.bankcard.domain.model.BinInfo
+import com.example.bankcard.presentation.binsearch.BinSearchEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -27,6 +29,8 @@ class HistoryViewModel(
             is HistoryEvent.LoadHistory -> loadHistory()
             is HistoryEvent.DeleteItem -> deleteItem(event.bin)
             is HistoryEvent.ClearError -> clearError()
+            is HistoryEvent.ShowBottomSheet -> showBottomSheet(event.show, event.binInfo)
+
         }
     }
 
@@ -50,7 +54,6 @@ class HistoryViewModel(
         viewModelScope.launch {
             try {
                 interactor.deleteFromHistory(bin)
-                // History will be updated automatically through Flow
             } catch (e: Exception) {
                 _state.update {
                     it.copy(error = "Failed to delete item: ${e.message}")
@@ -61,5 +64,14 @@ class HistoryViewModel(
 
     private fun clearError() {
         _state.update { it.copy(error = null) }
+    }
+
+    private fun showBottomSheet(show: Boolean, binInfo: BinInfo?) {
+        _state.update {
+            it.copy(
+                showBottomSheet = show,
+                selectedBinInfo = binInfo
+            )
+        }
     }
 }

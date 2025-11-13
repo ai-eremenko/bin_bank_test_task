@@ -6,5 +6,4 @@ import kotlinx.coroutines.flow.Flow
 interface HistoryInteractor {
     fun getHistory(): Flow<List<BinInfo>>
     suspend fun deleteFromHistory(bin: String)
-    suspend fun clearHistory()
 }

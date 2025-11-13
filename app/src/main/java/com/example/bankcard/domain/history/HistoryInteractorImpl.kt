@@ -14,8 +14,4 @@ class HistoryInteractorImpl(
     override suspend fun deleteFromHistory(bin: String) {
         historyRepository.deleteFromHistory(bin)
     }
-
-    override suspend fun clearHistory() {
-        historyRepository.clearHistory()
-    }
 }

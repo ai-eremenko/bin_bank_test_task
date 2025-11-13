@@ -5,5 +5,7 @@ import com.example.bankcard.domain.model.BinInfo
 data class HistoryState(
     val history: List<BinInfo> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val showBottomSheet: Boolean = false,
+    val selectedBinInfo: BinInfo? = null
 )

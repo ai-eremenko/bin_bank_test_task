@@ -44,6 +44,10 @@ import com.example.bankcard.ui.theme.GrayDark
 import com.example.bankcard.ui.theme.White
 import com.example.bankcard.ui.view.ErrorView
 import com.example.bankcard.utils.BankCardNumberTransformation
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,10 +60,14 @@ fun BinSearchView(
     modifier: Modifier = Modifier
 ) {
 
-    BinInfoBottomSheet(
-        binInfo = uiState.binInfo,
-        onDismiss = { onShowBottomSheet(false) }
-    )
+    if (uiState.showBottomSheet) {
+        BinInfoBottomSheet(
+            binInfo = uiState.binInfo,
+            onDismiss = {
+                onShowBottomSheet(false)
+            }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -100,7 +108,7 @@ fun BinSearchView(
             OutlinedTextField(
                 value = uiState.searchQuery,
                 onValueChange = { newText ->
-                    val filteredText = newText.filter { it.isDigit() }
+                    val filteredText = newText.filter { it.isDigit() }.take(19)
                     onSearchQueryChanged(filteredText)
                 },
                 modifier = Modifier
@@ -163,7 +171,17 @@ fun BinSearchView(
             Spacer(modifier = Modifier.height(8.dp))
 
             Button(
-                onClick = onNavigateToHistory,
+                onClick = {
+                    if (uiState.showBottomSheet) {
+                        onShowBottomSheet(false)
+                        CoroutineScope(Dispatchers.Main).launch {
+                            delay(300)
+                            onNavigateToHistory()
+                        }
+                    } else {
+                        onNavigateToHistory()
+                    }
+                },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .height(46.dp),

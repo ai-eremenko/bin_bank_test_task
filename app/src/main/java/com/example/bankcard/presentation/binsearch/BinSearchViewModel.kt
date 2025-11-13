@@ -41,6 +41,11 @@ class BinSearchViewModel(
             return
         }
 
+        if (bin.length > 19) {
+            _state.update { it.copy(error = "BIN must be at most 19 digits") }
+            return
+        }
+
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
 

@@ -22,8 +22,4 @@ class HistoryRepositoryImpl(
     override suspend fun deleteFromHistory(bin: String) {
         binInfoDao.deleteByBin(bin)
     }
-
-    override suspend fun clearHistory() {
-         binInfoDao.clearAll()
-    }
 }
